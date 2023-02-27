@@ -1,19 +1,19 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { AppComponent } from 'src/app/app.component';
-import { User, UserRole } from '../app/users/user';
-import { UserService } from '../app/users/user.service';
+import { Fsclient, FsclientRole } from '../app/fsclient/fsclient';
+import { FsclientService } from '../app/fsclient/fsclient.service';
 
 /**
- * A "mock" version of the `UserService` that can be used to test components
+ * A "mock" version of the `FsclientService` that can be used to test components
  * without having to create an actual service. It needs to be `Injectable` since
  * that's how services are typically provided to components.
  */
 @Injectable({
   providedIn: AppComponent
 })
-export class MockUserService extends UserService {
-  static testUsers: User[] = [
+export class MockFsclientService extends FsclientService {
+  static testFsclients: Fsclient[] = [
     {
       _id: 'chris_id',
       name: 'Chris',
@@ -48,26 +48,26 @@ export class MockUserService extends UserService {
   }
 
   // skipcq: JS-0105
-  getUsers(_filters: { role?: UserRole; age?: number; company?: string }): Observable<User[]> {
+  getFsclients(_filters: { role?: FsclientRole; age?: number; company?: string }): Observable<Fsclient[]> {
     // Our goal here isn't to test (and thus rewrite) the service, so we'll
-    // keep it simple and just return the test users regardless of what
+    // keep it simple and just return the test fsclients regardless of what
     // filters are passed in.
     //
     // The `of()` function converts a regular object or value into an
     // `Observable` of that object or value.
-    return of(MockUserService.testUsers);
+    return of(MockFsclientService.testFsclients);
   }
 
   // skipcq: JS-0105
-  getUserById(id: string): Observable<User> {
-    // If the specified ID is for one of the first two test users,
-    // return that user, otherwise return `null` so
-    // we can test illegal user requests.
+  getFsclientById(id: string): Observable<Fsclient> {
+    // If the specified ID is for one of the first two test fsclients,
+    // return that fsclient, otherwise return `null` so
+    // we can test illegal fsclient requests.
     // If you need more, just add those in too.
-    if (id === MockUserService.testUsers[0]._id) {
-      return of(MockUserService.testUsers[0]);
-    } else if (id === MockUserService.testUsers[1]._id) {
-      return of(MockUserService.testUsers[1]);
+    if (id === MockFsclientService.testFsclients[0]._id) {
+      return of(MockFsclientService.testFsclients[0]);
+    } else if (id === MockFsclientService.testFsclients[1]._id) {
+      return of(MockFsclientService.testFsclients[1]);
     } else {
       return of(null);
     }

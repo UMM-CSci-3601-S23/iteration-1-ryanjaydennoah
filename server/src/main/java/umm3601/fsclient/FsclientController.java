@@ -1,4 +1,4 @@
-package umm3601.user;
+package umm3601.fsclient;
 
 import static com.mongodb.client.model.Filters.and;
 import static com.mongodb.client.model.Filters.eq;
@@ -29,9 +29,9 @@ import io.javalin.http.HttpStatus;
 import io.javalin.http.NotFoundResponse;
 
 /**
- * Controller that manages requests for info about users.
+ * Controller that manages requests for info about fsclients.
  */
-public class UserController {
+public class FsclientController {
 
   static final String AGE_KEY = "age";
   static final String COMPANY_KEY = "company";
@@ -42,67 +42,67 @@ public class UserController {
   private static final String ROLE_REGEX = "^(admin|editor|viewer)$";
   public static final String EMAIL_REGEX = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$";
 
-  private final JacksonMongoCollection<User> userCollection;
+  private final JacksonMongoCollection<Fsclient> fsclientCollection;
 
   /**
-   * Construct a controller for users.
+   * Construct a controller for fsclients.
    *
-   * @param database the database containing user data
+   * @param database the database containing fsclient data
    */
-  public UserController(MongoDatabase database) {
-    userCollection = JacksonMongoCollection.builder().build(
+  public FsclientController(MongoDatabase database) {
+    fsclientCollection = JacksonMongoCollection.builder().build(
         database,
-        "users",
-        User.class,
+        "fsclients",
+        Fsclient.class,
         UuidRepresentation.STANDARD);
   }
 
   /**
-   * Set the JSON body of the response to be the single user
+   * Set the JSON body of the response to be the single fsclient
    * specified by the `id` parameter in the request
    *
    * @param ctx a Javalin HTTP context
    */
-  public void getUser(Context ctx) {
+  public void getFsclient(Context ctx) {
     String id = ctx.pathParam("id");
-    User user;
+    Fsclient fsclient;
 
     try {
-      user = userCollection.find(eq("_id", new ObjectId(id))).first();
+      fsclient = fsclientCollection.find(eq("_id", new ObjectId(id))).first();
     } catch (IllegalArgumentException e) {
-      throw new BadRequestResponse("The requested user id wasn't a legal Mongo Object ID.");
+      throw new BadRequestResponse("The requested fsclient id wasn't a legal Mongo Object ID.");
     }
-    if (user == null) {
-      throw new NotFoundResponse("The requested user was not found");
+    if (fsclient == null) {
+      throw new NotFoundResponse("The requested fsclient was not found");
     } else {
-      ctx.json(user);
+      ctx.json(fsclient);
       ctx.status(HttpStatus.OK);
     }
   }
 
   /**
-   * Set the JSON body of the response to be a list of all the users returned from the database
+   * Set the JSON body of the response to be a list of all the fsclients returned from the database
    * that match any requested filters and ordering
    *
    * @param ctx a Javalin HTTP context
    */
-  public void getUsers(Context ctx) {
+  public void getFsclients(Context ctx) {
     Bson combinedFilter = constructFilter(ctx);
     Bson sortingOrder = constructSortingOrder(ctx);
 
     // All three of the find, sort, and into steps happen "in parallel" inside the
-    // database system. So MongoDB is going to find the users with the specified
+    // database system. So MongoDB is going to find the fsclients with the specified
     // properties, return those sorted in the specified manner, and put the
     // results into an initially empty ArrayList.
-    ArrayList<User> matchingUsers = userCollection
+    ArrayList<Fsclient> matchingFsclients = fsclientCollection
       .find(combinedFilter)
       .sort(sortingOrder)
       .into(new ArrayList<>());
 
-    // Set the JSON body of the response to be the list of users returned by the database.
+    // Set the JSON body of the response to be the list of fsclients returned by the database.
     // According to the Javalin documentation (https://javalin.io/documentation#context),
     // this calls result(jsonString), and also sets content type to json
-    ctx.json(matchingUsers);
+    ctx.json(matchingFsclients);
 
     // Explicitly set the context status to OK
     ctx.status(HttpStatus.OK);
@@ -113,8 +113,8 @@ public class UserController {
 
     if (ctx.queryParamMap().containsKey(AGE_KEY)) {
       int targetAge = ctx.queryParamAsClass(AGE_KEY, Integer.class)
-        .check(it -> it > 0, "User's age must be greater than zero")
-        .check(it -> it < REASONABLE_AGE_LIMIT, "User's age must be less than " + REASONABLE_AGE_LIMIT)
+        .check(it -> it > 0, "Fsclient's age must be greater than zero")
+        .check(it -> it < REASONABLE_AGE_LIMIT, "Fsclient's age must be less than " + REASONABLE_AGE_LIMIT)
         .get();
       filters.add(eq(AGE_KEY, targetAge));
     }
@@ -124,7 +124,7 @@ public class UserController {
     }
     if (ctx.queryParamMap().containsKey(ROLE_KEY)) {
       String role = ctx.queryParamAsClass(ROLE_KEY, String.class)
-        .check(it -> it.matches(ROLE_REGEX), "User must have a legal user role")
+        .check(it -> it.matches(ROLE_REGEX), "Fsclient must have a legal fsclient role")
         .get();
       filters.add(eq(ROLE_KEY, role));
     }
@@ -146,53 +146,53 @@ public class UserController {
   }
 
   /**
-   * Add a new user using information from the context
-   * (as long as the information gives "legal" values to User fields)
+   * Add a new fsclient using information from the context
+   * (as long as the information gives "legal" values to Fsclient fields)
    *
    * @param ctx a Javalin HTTP context
    */
-  public void addNewUser(Context ctx) {
+  public void addNewFsclient(Context ctx) {
     /*
      * The follow chain of statements uses the Javalin validator system
-     * to verify that instance of `User` provided in this context is
-     * a "legal" user. It checks the following things (in order):
-     *    - The user has a value for the name (`usr.name != null`)
-     *    - The user name is not blank (`usr.name.length > 0`)
+     * to verify that instance of `Fsclient` provided in this context is
+     * a "legal" fsclient. It checks the following things (in order):
+     *    - The fsclient has a value for the name (`usr.name != null`)
+     *    - The fsclient name is not blank (`usr.name.length > 0`)
      *    - The provided email is valid (matches EMAIL_REGEX)
      *    - The provided age is > 0
      *    - The provided role is valid (one of "admin", "editor", or "viewer")
      *    - A non-blank company is provided
      */
-    User newUser = ctx.bodyValidator(User.class)
-      .check(usr -> usr.name != null && usr.name.length() > 0, "User must have a non-empty user name")
-      .check(usr -> usr.email.matches(EMAIL_REGEX), "User must have a legal email")
-      .check(usr -> usr.age > 0, "User's age must be greater than zero")
-      .check(usr -> usr.age < REASONABLE_AGE_LIMIT, "User's age must be less than " + REASONABLE_AGE_LIMIT)
-      .check(usr -> usr.role.matches(ROLE_REGEX), "User must have a legal user role")
-      .check(usr -> usr.company != null && usr.company.length() > 0, "User must have a non-empty company name")
+    Fsclient newFsclient = ctx.bodyValidator(Fsclient.class)
+      .check(usr -> usr.name != null && usr.name.length() > 0, "Fsclient must have a non-empty fsclient name")
+      .check(usr -> usr.email.matches(EMAIL_REGEX), "Fsclient must have a legal email")
+      .check(usr -> usr.age > 0, "Fsclient's age must be greater than zero")
+      .check(usr -> usr.age < REASONABLE_AGE_LIMIT, "Fsclient's age must be less than " + REASONABLE_AGE_LIMIT)
+      .check(usr -> usr.role.matches(ROLE_REGEX), "Fsclient must have a legal fsclient role")
+      .check(usr -> usr.company != null && usr.company.length() > 0, "Fsclient must have a non-empty company name")
       .get();
 
-    // Generate a user avatar (you won't need this part for todos)
-    newUser.avatar = generateAvatar(newUser.email);
+    // Generate a fsclient avatar (you won't need this part for todos)
+    newFsclient.avatar = generateAvatar(newFsclient.email);
 
-    userCollection.insertOne(newUser);
+    fsclientCollection.insertOne(newFsclient);
 
-    ctx.json(Map.of("id", newUser._id));
+    ctx.json(Map.of("id", newFsclient._id));
     // 201 is the HTTP code for when we successfully
-    // create a new resource (a user in this case).
+    // create a new resource (a fsclient in this case).
     // See, e.g., https://developer.mozilla.org/en-US/docs/Web/HTTP/Status
     // for a description of the various response codes.
     ctx.status(HttpStatus.CREATED);
   }
 
   /**
-   * Delete the user specified by the `id` parameter in the request.
+   * Delete the fsclient specified by the `id` parameter in the request.
    *
    * @param ctx a Javalin HTTP context
    */
-  public void deleteUser(Context ctx) {
+  public void deleteFsclient(Context ctx) {
     String id = ctx.pathParam("id");
-    DeleteResult deleteResult = userCollection.deleteOne(eq("_id", new ObjectId(id)));
+    DeleteResult deleteResult = fsclientCollection.deleteOne(eq("_id", new ObjectId(id)));
     if (deleteResult.getDeletedCount() != 1) {
       ctx.status(HttpStatus.NOT_FOUND);
       throw new NotFoundResponse(
@@ -205,7 +205,7 @@ public class UserController {
 
   /**
    * Utility function to generate an URI that points
-   * at a unique avatar image based on a user's email.
+   * at a unique avatar image based on a fsclient's email.
    *
    * This uses the service provided by gravatar.com; there
    * are numerous other similar services that one could

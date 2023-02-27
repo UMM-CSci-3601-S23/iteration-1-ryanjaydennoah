@@ -7,17 +7,17 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
-import { MockUserService } from 'src/testing/user.service.mock';
-import { AddUserComponent } from './add-user.component';
-import { UserService } from './user.service';
+import { MockFsclientService } from 'src/testing/fsclient.service.mock';
+import { AddFsclientComponent } from './add-fsclient.component';
+import { FsclientService } from './fsclient.service';
 
-describe('AddUserComponent', () => {
-  let addUserComponent: AddUserComponent;
-  let addUserForm: FormGroup;
-  let fixture: ComponentFixture<AddUserComponent>;
+describe('AddFsclientComponent', () => {
+  let addFsclientComponent: AddFsclientComponent;
+  let addFsclientForm: FormGroup;
+  let fixture: ComponentFixture<AddFsclientComponent>;
 
   beforeEach(waitForAsync(() => {
-    TestBed.overrideProvider(UserService, { useValue: new MockUserService() });
+    TestBed.overrideProvider(FsclientService, { useValue: new MockFsclientService() });
     TestBed.configureTestingModule({
       imports: [
         FormsModule,
@@ -30,19 +30,19 @@ describe('AddUserComponent', () => {
         BrowserAnimationsModule,
         RouterTestingModule
       ],
-      declarations: [AddUserComponent],
+      declarations: [AddFsclientComponent],
     }).compileComponents().catch(error => {
       expect(error).toBeNull();
     });
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AddUserComponent);
-    addUserComponent = fixture.componentInstance;
+    fixture = TestBed.createComponent(AddFsclientComponent);
+    addFsclientComponent = fixture.componentInstance;
     fixture.detectChanges();
-    addUserForm = addUserComponent.addUserForm;
-    expect(addUserForm).toBeDefined();
-    expect(addUserForm.controls).toBeDefined();
+    addFsclientForm = addFsclientComponent.addFsclientForm;
+    expect(addFsclientForm).toBeDefined();
+    expect(addFsclientForm.controls).toBeDefined();
   });
 
   // Not terribly important; if the component doesn't create
@@ -51,21 +51,21 @@ describe('AddUserComponent', () => {
   // our component definitions don't have errors that would
   // prevent them from being successfully constructed.
   it('should create the component and form', () => {
-    expect(addUserComponent).toBeTruthy();
-    expect(addUserForm).toBeTruthy();
+    expect(addFsclientComponent).toBeTruthy();
+    expect(addFsclientForm).toBeTruthy();
   });
 
   // Confirms that an initial, empty form is *not* valid, so
   // people can't submit an empty form.
   it('form should be invalid when empty', () => {
-    expect(addUserForm.valid).toBeFalsy();
+    expect(addFsclientForm.valid).toBeFalsy();
   });
 
   describe('The name field', () => {
     let nameControl: AbstractControl;
 
     beforeEach(() => {
-      nameControl = addUserComponent.addUserForm.controls.name;
+      nameControl = addFsclientComponent.addFsclientForm.controls.name;
     });
 
     it('should not allow empty names', () => {
@@ -119,7 +119,7 @@ describe('AddUserComponent', () => {
     let ageControl: AbstractControl;
 
     beforeEach(() => {
-      ageControl = addUserComponent.addUserForm.controls.age;
+      ageControl = addFsclientComponent.addFsclientForm.controls.age;
     });
 
     it('should not allow empty ages', () => {
@@ -164,7 +164,7 @@ describe('AddUserComponent', () => {
 
   describe('The company field', () => {
     it('should allow empty values', () => {
-      const companyControl = addUserForm.controls.company;
+      const companyControl = addFsclientForm.controls.company;
       companyControl.setValue('');
       expect(companyControl.valid).toBeTruthy();
     });
@@ -174,7 +174,7 @@ describe('AddUserComponent', () => {
     let emailControl: AbstractControl;
 
     beforeEach(() => {
-      emailControl = addUserComponent.addUserForm.controls.email;
+      emailControl = addFsclientComponent.addFsclientForm.controls.email;
     });
 
     it('should not allow empty values', () => {
@@ -199,7 +199,7 @@ describe('AddUserComponent', () => {
     let roleControl: AbstractControl;
 
     beforeEach(() => {
-      roleControl = addUserForm.controls.role;
+      roleControl = addFsclientForm.controls.role;
     });
 
     it('should not allow empty values', () => {

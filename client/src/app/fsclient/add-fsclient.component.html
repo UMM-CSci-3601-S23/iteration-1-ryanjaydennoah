@@ -1,9 +1,9 @@
 <div class="flex-row">
   <div class="flex-1">
-    <form [formGroup]="addUserForm" (ngSubmit)="submitForm();">
-    <mat-card class="add-user-card">
+    <form [formGroup]="addFsclientForm" (ngSubmit)="submitForm();">
+    <mat-card class="add-fsclient-card">
         <mat-card-header>
-          <mat-card-title class="add-user-title">New User</mat-card-title>
+          <mat-card-title class="add-fsclient-title">New Fsclient</mat-card-title>
         </mat-card-header>
         <mat-card-content>
           <div class="flex-col">
@@ -59,11 +59,11 @@
             mat-button
             type="button"
             color="primary"
-            [disabled]="!addUserForm.valid"
+            [disabled]="!addFsclientForm.valid"
             type="submit"
-            data-test="confirmAddUserButton"
+            data-test="confirmAddFsclientButton"
           >
-            ADD USER
+            ADD FSCLIENT
           </button>
         </mat-card-actions>
     </mat-card>

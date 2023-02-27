@@ -1,0 +1,6 @@
+<div class="flex-row">
+  <div class="flex-1" *ngIf="fsclient; else loading">
+    <app-fsclient-card [fsclient]="this.fsclient"></app-fsclient-card>
+  </div>
+</div>
+<ng-template #loading>Loading User Profile data...</ng-template>

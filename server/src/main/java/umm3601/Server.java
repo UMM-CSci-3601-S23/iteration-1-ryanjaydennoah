@@ -12,8 +12,8 @@ import org.bson.UuidRepresentation;
 
 import io.javalin.Javalin;
 import io.javalin.plugin.bundled.RouteOverviewPlugin;
+import umm3601.fsclient.FsclientController;
 import io.javalin.http.InternalServerErrorResponse;
-import umm3601.user.UserController;
 
 public class Server {
 
@@ -41,7 +41,7 @@ public class Server {
     MongoDatabase database = mongoClient.getDatabase(databaseName);
 
     // Initialize dependencies
-    UserController userController = new UserController(database);
+    FsclientController fsclientController = new FsclientController(database);
 
     Javalin server = Javalin.create(config ->
       config.plugins.register(new RouteOverviewPlugin("/api"))
@@ -61,24 +61,24 @@ public class Server {
 
     server.start(SERVER_PORT);
 
-    // List users, filtered using query parameters
-    server.get("/api/users", userController::getUsers);
+    // List fsclients, filtered using query parameters
+    server.get("/api/fsclients", fsclientController::getFsclients);
 
-    // Get the specified user
-    server.get("/api/users/{id}", userController::getUser);
+    // Get the specified fsclient
+    server.get("/api/fsclients/{id}", fsclientController::getFsclient);
 
-    // Delete the specified user
-    server.delete("/api/users/{id}", userController::deleteUser);
+    // Delete the specified fsclient
+    server.delete("/api/fsclients/{id}", fsclientController::deleteFsclient);
 
-    // Add new user with the user info being in the JSON body
+    // Add new fsclient with the fsclient info being in the JSON body
     // of the HTTP request
-    server.post("/api/users", userController::addNewUser);
+    server.post("/api/fsclients", fsclientController::addNewFsclient);
 
     // This catches any uncaught exceptions thrown in the server
     // code and turns them into a 500 response ("Internal Server
     // Error Response"). In general you'll like to *never* actually
     // return this, as it's an instance of the server crashing in
-    // some way, and returning a 500 to your user is *super*
+    // some way, and returning a 500 to your fsclient is *super*
     // unhelpful to them. In a production system you'd almost
     // certainly want to use a logging library to log all errors
     // caught here so you'd know about them and could try to address

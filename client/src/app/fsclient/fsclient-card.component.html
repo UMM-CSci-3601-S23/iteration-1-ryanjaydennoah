@@ -1,0 +1,15 @@
+    <mat-card class="fsclient-card" *ngIf="this.fsclient">
+  <mat-card-header>
+    <img mat-card-avatar [src]="this.fsclient.avatar" class="fsclient-avatar" *ngIf="this.fsclient.avatar">
+    <mat-card-title class="fsclient-card-name">{{ this.fsclient.name }}</mat-card-title>
+    <mat-card-subtitle class="fsclient-card-company">{{ this.fsclient.company }}</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content *ngIf="!this.simple">
+    <p>Role: <span class="fsclient-card-role">{{ this.fsclient.role }}</span></p>
+    <p>Age: <span class="fsclient-card-age">{{ this.fsclient.age }}</span></p>
+    <p>Email: <a href="mailto:{{this.fsclient.email}}" class="fsclient-card-email">{{this.fsclient.email}}</a></p>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-button data-test="viewProfileButton" *ngIf="this.simple" [routerLink]="['/fsclients', this.fsclient._id]">View Profile</button>
+  </mat-card-actions>
+</mat-card>

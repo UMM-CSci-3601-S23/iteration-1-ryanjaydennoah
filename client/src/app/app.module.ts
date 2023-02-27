@@ -23,13 +23,13 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
-import { AddUserComponent } from './users/add-user.component';
+import { AddFsclientComponent } from './fsclient/add-fsclient.component';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { HomeComponent } from './home/home.component';
-import { UserCardComponent } from './users/user-card.component';
-import { UserListComponent } from './users/user-list.component';
-import { UserProfileComponent } from './users/user-profile.component';
+import { FsclientCardComponent } from './fsclient/fsclient-card.component';
+import { FsclientListComponent } from './fsclient/fsclient-list.component';
+import { FsclientProfileComponent } from './fsclient/fsclient-profile.component';
 
 const MATERIAL_MODULES: any[] = [
   MatButtonModule,
@@ -54,10 +54,10 @@ const MATERIAL_MODULES: any[] = [
   declarations: [
     AppComponent,
     HomeComponent,
-    UserListComponent,
-    UserCardComponent,
-    UserProfileComponent,
-    AddUserComponent,
+    FsclientListComponent,
+    FsclientCardComponent,
+    FsclientProfileComponent,
+    AddFsclientComponent,
   ],
   imports: [
     BrowserModule,

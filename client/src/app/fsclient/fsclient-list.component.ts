@@ -1,11 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subject, takeUntil } from 'rxjs';
-import { User, UserRole } from './user';
-import { UserService } from './user.service';
+import { Fsclient, FsclientRole } from './fsclient';
+import { FsclientService } from './fsclient.service';
 
 /**
- * A component that displays a list of users, either as a grid
+ * A component that displays a list of fsclients, either as a grid
  * of cards or as a vertical list.
  *
  * The component supports local filtering by name and/or company,
@@ -15,58 +15,58 @@ import { UserService } from './user.service';
  * makes the most sense to do the filtering.
  */
 @Component({
-  selector: 'app-user-list-component',
-  templateUrl: 'user-list.component.html',
-  styleUrls: ['./user-list.component.scss'],
+  selector: 'app-fsclient-list-component',
+  templateUrl: 'fsclient-list.component.html',
+  styleUrls: ['./fsclient-list.component.scss'],
   providers: []
 })
 
-export class UserListComponent implements OnInit, OnDestroy  {
+export class FsclientListComponent implements OnInit, OnDestroy  {
   // These are public so that tests can reference them (.spec.ts)
-  public serverFilteredUsers: User[];
-  public filteredUsers: User[];
+  public serverFilteredFsclients: Fsclient[];
+  public filteredFsclients: Fsclient[];
 
-  public userName: string;
-  public userAge: number;
-  public userRole: UserRole;
-  public userCompany: string;
+  public fsclientName: string;
+  public fsclientAge: number;
+  public fsclientRole: FsclientRole;
+  public fsclientCompany: string;
   public viewType: 'card' | 'list' = 'card';
 
   private ngUnsubscribe = new Subject<void>();
 
 
   /**
-   * This constructor injects both an instance of `UserService`
+   * This constructor injects both an instance of `FsclientService`
    * and an instance of `MatSnackBar` into this component.
-   * `UserService` lets us interact with the server.
+   * `FsclientService` lets us interact with the server.
    *
-   * @param userService the `UserService` used to get users from the server
+   * @param fsclientService the `FsclientService` used to get fsclients from the server
    * @param snackBar the `MatSnackBar` used to display feedback
    */
-  constructor(private userService: UserService, private snackBar: MatSnackBar) {
+  constructor(private fsclientService: FsclientService, private snackBar: MatSnackBar) {
     // Nothing here – everything is in the injection parameters.
   }
 
   /**
-   * Get the users from the server, filtered by the role and age specified
+   * Get the fsclients from the server, filtered by the role and age specified
    * in the GUI.
    */
-  getUsersFromServer(): void {
-    // A user-list-component is paying attention to userService.getUsers
-    // (which is an Observable<User[]>)
+  getFsclientsFromServer(): void {
+    // A fsclient-list-component is paying attention to fsclientService.getFsclients
+    // (which is an Observable<Fsclient[]>)
     // (for more on Observable, see: https://reactivex.io/documentation/observable.html)
-    // and we are specifically watching for role and age whenever the User[] gets updated
-    this.userService.getUsers({
-      role: this.userRole,
-      age: this.userAge
+    // and we are specifically watching for role and age whenever the Fsclient[] gets updated
+    this.fsclientService.getFsclients({
+      role: this.fsclientRole,
+      age: this.fsclientAge
     }).pipe(
       takeUntil(this.ngUnsubscribe)
     ).subscribe({
-      // Next time we see a change in the Observable<User[]>,
-      // refer to that User[] as returnedUsers here and do the steps in the {}
-      next: (returnedUsers) => {
-        // First, update the array of serverFilteredUsers to be the User[] in the observable
-        this.serverFilteredUsers = returnedUsers;
+      // Next time we see a change in the Observable<Fsclient[]>,
+      // refer to that Fsclient[] as returnedFsclients here and do the steps in the {}
+      next: (returnedFsclients) => {
+        // First, update the array of serverFilteredFsclients to be the Fsclient[] in the observable
+        this.serverFilteredFsclients = returnedFsclients;
         // Then update the filters for our client-side filtering as described in this method
         this.updateFilter();
       },
@@ -85,25 +85,25 @@ export class UserListComponent implements OnInit, OnDestroy  {
           { duration: 6000 });
       },
       // Once the observable has completed successfully
-      // complete: () => console.log('Users were filtered on the server')
+      // complete: () => console.log('Fsclients were filtered on the server')
     });
   }
 
   /**
    * Called when the filtering information is changed in the GUI so we can
-   * get an updated list of `filteredUsers`.
+   * get an updated list of `filteredFsclients`.
    */
   public updateFilter(): void {
-    this.filteredUsers = this.userService.filterUsers(
-      this.serverFilteredUsers, { name: this.userName, company: this.userCompany });
+    this.filteredFsclients = this.fsclientService.filterFsclients(
+      this.serverFilteredFsclients, { name: this.fsclientName, company: this.fsclientCompany });
   }
 
   /**
-   * Starts an asynchronous operation to update the users list
+   * Starts an asynchronous operation to update the fsclients list
    *
    */
   ngOnInit(): void {
-    this.getUsersFromServer();
+    this.getFsclientsFromServer();
   }
 
   /**

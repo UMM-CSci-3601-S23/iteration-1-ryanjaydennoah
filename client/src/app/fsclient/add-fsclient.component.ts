@@ -2,17 +2,17 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { UserRole } from './user';
-import { UserService } from './user.service';
+import { FsclientRole } from './fsclient';
+import { FsclientService } from './fsclient.service';
 
 @Component({
-  selector: 'app-add-user',
-  templateUrl: './add-user.component.html',
-  styleUrls: ['./add-user.component.scss']
+  selector: 'app-add-fsclient',
+  templateUrl: './add-fsclient.component.html',
+  styleUrls: ['./add-fsclient.component.scss']
 })
-export class AddUserComponent {
+export class AddFsclientComponent {
 
-  addUserForm = new FormGroup({
+  addFsclientForm = new FormGroup({
     // We allow alphanumeric input and limit the length for name.
     name: new FormControl('', Validators.compose([
       Validators.required,
@@ -37,7 +37,7 @@ export class AddUserComponent {
       Validators.min(15),
       Validators.max(200),
       // In the HTML, we set type="number" on this field. That guarantees that the value of this field is numeric,
-      // but not that it's a whole number. (The user could still type -27.3232, for example.) So, we also need
+      // but not that it's a whole number. (The fsclient could still type -27.3232, for example.) So, we also need
       // to include this pattern.
       Validators.pattern('^[0-9]+$')
     ])),
@@ -53,7 +53,7 @@ export class AddUserComponent {
       Validators.email,
     ])),
 
-    role: new FormControl<UserRole>('viewer', Validators.compose([
+    role: new FormControl<FsclientRole>('viewer', Validators.compose([
       Validators.required,
       Validators.pattern('^(admin|editor|viewer)$'),
     ])),
@@ -62,7 +62,7 @@ export class AddUserComponent {
 
   // We can only display one error at a time,
   // the order the messages are defined in is the order they will display in.
-  readonly addUserValidationMessages = {
+  readonly addFsclientValidationMessages = {
     name: [
       {type: 'required', message: 'Name is required'},
       {type: 'minlength', message: 'Name must be at least 2 characters long'},
@@ -88,17 +88,17 @@ export class AddUserComponent {
     ]
   };
 
-  constructor(private userService: UserService, private snackBar: MatSnackBar, private router: Router) {
+  constructor(private fsclientService: FsclientService, private snackBar: MatSnackBar, private router: Router) {
   }
 
   formControlHasError(controlName: string): boolean {
-    return this.addUserForm.get(controlName).invalid &&
-      (this.addUserForm.get(controlName).dirty || this.addUserForm.get(controlName).touched);
+    return this.addFsclientForm.get(controlName).invalid &&
+      (this.addFsclientForm.get(controlName).dirty || this.addFsclientForm.get(controlName).touched);
   }
 
-  getErrorMessage(name: keyof typeof this.addUserValidationMessages): string {
-    for(const {type, message} of this.addUserValidationMessages[name]) {
-      if (this.addUserForm.get(name).hasError(type)) {
+  getErrorMessage(name: keyof typeof this.addFsclientValidationMessages): string {
+    for(const {type, message} of this.addFsclientValidationMessages[name]) {
+      if (this.addFsclientForm.get(name).hasError(type)) {
         return message;
       }
     }
@@ -106,14 +106,14 @@ export class AddUserComponent {
   }
 
   submitForm() {
-    this.userService.addUser(this.addUserForm.value).subscribe({
+    this.fsclientService.addFsclient(this.addFsclientForm.value).subscribe({
       next: (newId) => {
         this.snackBar.open(
-          `Added user ${this.addUserForm.value.name}`,
+          `Added fsclient ${this.addFsclientForm.value.name}`,
           null,
           { duration: 2000 }
         );
-        this.router.navigate(['/users/', newId]);
+        this.router.navigate(['/fsclients/', newId]);
       },
       error: err => {
         this.snackBar.open(
@@ -122,7 +122,7 @@ export class AddUserComponent {
           { duration: 5000 }
         );
       },
-      // complete: () => console.log('Add user completes!')
+      // complete: () => console.log('Add fsclient completes!')
     });
   }
 

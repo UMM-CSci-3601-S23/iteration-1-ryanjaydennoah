@@ -43,7 +43,7 @@ import org.junit.jupiter.api.Test;
  * they test that code, and perhaps our understanding of it.
  * <p>
  * To test "our" code we'd want the tests to confirm that
- * the behavior of methods in things like the UserController
+ * the behavior of methods in things like the FsclientController
  * do the "right" thing.
  */
 // The tests here include a ton of "magic numbers" (numeric constants).
@@ -56,7 +56,7 @@ import org.junit.jupiter.api.Test;
 @SuppressWarnings({"MagicNumber"})
 class MongoSpec {
 
-  private MongoCollection<Document> userDocuments;
+  private MongoCollection<Document> fsclientDocuments;
 
   private static MongoClient mongoClient;
   private static MongoDatabase db;
@@ -82,67 +82,67 @@ class MongoSpec {
 
   @BeforeEach
   void clearAndPopulateDB() {
-    userDocuments = db.getCollection("users");
-    userDocuments.drop();
-    List<Document> testUsers = new ArrayList<>();
-    testUsers.add(
+    fsclientDocuments = db.getCollection("fsclients");
+    fsclientDocuments.drop();
+    List<Document> testFsclients = new ArrayList<>();
+    testFsclients.add(
       new Document()
         .append("name", "Chris")
         .append("age", 25)
         .append("company", "UMM")
         .append("email", "chris@this.that"));
-    testUsers.add(
+    testFsclients.add(
       new Document()
         .append("name", "Pat")
         .append("age", 37)
         .append("company", "IBM")
         .append("email", "pat@something.com"));
-    testUsers.add(
+    testFsclients.add(
       new Document()
         .append("name", "Jamie")
         .append("age", 37)
         .append("company", "Frogs, Inc.")
         .append("email", "jamie@frogs.com"));
 
-    userDocuments.insertMany(testUsers);
+    fsclientDocuments.insertMany(testFsclients);
   }
 
   private List<Document> intoList(MongoIterable<Document> documents) {
-    List<Document> users = new ArrayList<>();
-    documents.into(users);
-    return users;
+    List<Document> fsclients = new ArrayList<>();
+    documents.into(fsclients);
+    return fsclients;
   }
 
-  private int countUsers(FindIterable<Document> documents) {
-    List<Document> users = intoList(documents);
-    return users.size();
+  private int countFsclients(FindIterable<Document> documents) {
+    List<Document> fsclients = intoList(documents);
+    return fsclients.size();
   }
 
   @Test
-  void shouldBeThreeUsers() {
-    FindIterable<Document> documents = userDocuments.find();
-    int numberOfUsers = countUsers(documents);
-    assertEquals(3, numberOfUsers, "Should be 3 total users");
+  void shouldBeThreeFsclients() {
+    FindIterable<Document> documents = fsclientDocuments.find();
+    int numberOfFsclients = countFsclients(documents);
+    assertEquals(3, numberOfFsclients, "Should be 3 total fsclients");
   }
 
   @Test
   void shouldBeOneChris() {
-    FindIterable<Document> documents = userDocuments.find(eq("name", "Chris"));
-    int numberOfUsers = countUsers(documents);
-    assertEquals(1, numberOfUsers, "Should be 1 Chris");
+    FindIterable<Document> documents = fsclientDocuments.find(eq("name", "Chris"));
+    int numberOfFsclients = countFsclients(documents);
+    assertEquals(1, numberOfFsclients, "Should be 1 Chris");
   }
 
   @Test
   void shouldBeTwoOver25() {
-    FindIterable<Document> documents = userDocuments.find(gt("age", 25));
-    int numberOfUsers = countUsers(documents);
-    assertEquals(2, numberOfUsers, "Should be 2 over 25");
+    FindIterable<Document> documents = fsclientDocuments.find(gt("age", 25));
+    int numberOfFsclients = countFsclients(documents);
+    assertEquals(2, numberOfFsclients, "Should be 2 over 25");
   }
 
   @Test
   void over25SortedByName() {
     List<Document> docs
-      = userDocuments.find(gt("age", 25))
+      = fsclientDocuments.find(gt("age", 25))
       .sort(Sorts.ascending("name"))
       .into(new ArrayList<>());
     assertEquals(2, docs.size(), "Should be 2");
@@ -153,7 +153,7 @@ class MongoSpec {
   @Test
   void over25AndIbmers() {
     List<Document> docs
-      = userDocuments.find(and(gt("age", 25),
+      = fsclientDocuments.find(and(gt("age", 25),
       eq("company", "IBM")))
       .into(new ArrayList<>());
     assertEquals(1, docs.size(), "Should be 1");
@@ -163,7 +163,7 @@ class MongoSpec {
   @Test
   void justNameAndEmail() {
     List<Document> docs
-      = userDocuments.find().projection(fields(include("name", "email")))
+      = fsclientDocuments.find().projection(fields(include("name", "email")))
       .into(new ArrayList<>());
     assertEquals(3, docs.size(), "Should be 3");
     assertEquals("Chris", docs.get(0).get("name"), "First should be Chris");
@@ -175,7 +175,7 @@ class MongoSpec {
   @Test
   void justNameAndEmailNoId() {
     List<Document> docs
-      = userDocuments.find()
+      = fsclientDocuments.find()
       .projection(fields(include("name", "email"), excludeId()))
       .into(new ArrayList<>());
     assertEquals(3, docs.size(), "Should be 3");
@@ -188,7 +188,7 @@ class MongoSpec {
   @Test
   void justNameAndEmailNoIdSortedByCompany() {
     List<Document> docs
-      = userDocuments.find()
+      = fsclientDocuments.find()
       .sort(Sorts.ascending("company"))
       .projection(fields(include("name", "email"), excludeId()))
       .into(new ArrayList<>());
@@ -202,7 +202,7 @@ class MongoSpec {
   @Test
   void ageCounts() {
     List<Document> docs
-      = userDocuments.aggregate(
+      = fsclientDocuments.aggregate(
       Arrays.asList(
         /*
          * Groups data by the "age" field, and then counts
@@ -226,7 +226,7 @@ class MongoSpec {
   @Test
   void averageAge() {
     List<Document> docs
-      = userDocuments.aggregate(
+      = fsclientDocuments.aggregate(
       Arrays.asList(
         Aggregates.group("$company",
           Accumulators.avg("averageAge", "$age")),

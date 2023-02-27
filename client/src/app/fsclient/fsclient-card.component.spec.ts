@@ -1,12 +1,12 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
-import { UserCardComponent } from './user-card.component';
+import { FsclientCardComponent } from './fsclient-card.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatCardModule } from '@angular/material/card';
 
-describe('UserCardComponent', () => {
-  let component: UserCardComponent;
-  let fixture: ComponentFixture<UserCardComponent>;
+describe('FsclientCardComponent', () => {
+  let component: FsclientCardComponent;
+  let fixture: ComponentFixture<FsclientCardComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -14,15 +14,15 @@ describe('UserCardComponent', () => {
         BrowserAnimationsModule,
         MatCardModule
       ],
-      declarations: [ UserCardComponent ]
+      declarations: [ FsclientCardComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(UserCardComponent);
+    fixture = TestBed.createComponent(FsclientCardComponent);
     component = fixture.componentInstance;
-    component.user = {
+    component.fsclient = {
       _id: 'chris_id',
       name: 'Chris',
       age: 25,

@@ -1,4 +1,4 @@
-package umm3601.user;
+package umm3601.fsclient;
 
 import org.mongojack.Id;
 import org.mongojack.ObjectId;
@@ -19,7 +19,7 @@ import org.mongojack.ObjectId;
 // check in CheckStyle so that we don't get a failed
 // build when Gradle runs CheckStyle.
 @SuppressWarnings({"VisibilityModifier"})
-public class User {
+public class Fsclient {
 
   @ObjectId @Id
   // By default Java field names shouldn't start with underscores.
@@ -37,16 +37,16 @@ public class User {
 
   @Override
   public boolean equals(Object obj) {
-    if (!(obj instanceof User)) {
+    if (!(obj instanceof Fsclient)) {
       return false;
     }
-    User other = (User) obj;
+    Fsclient other = (Fsclient) obj;
     return _id.equals(other._id);
   }
 
   @Override
   public int hashCode() {
-    // This means that equal Users will hash the same, which is good.
+    // This means that equal Fsclients will hash the same, which is good.
     return _id.hashCode();
   }
 }
