@@ -10,7 +10,7 @@ public class RequestForm {
   @SuppressWarnings({"MemberName"})
 
   public String _id;
-  public String requesterFullName;
+  public String requesterName;
 
   /*
    * This ArrayList will store whatever boxes are checked off as "true" on the food request form.
