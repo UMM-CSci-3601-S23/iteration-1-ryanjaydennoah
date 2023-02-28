@@ -13,6 +13,7 @@ import org.bson.UuidRepresentation;
 import io.javalin.Javalin;
 import io.javalin.plugin.bundled.RouteOverviewPlugin;
 import umm3601.fsclient.FsclientController;
+import umm3601.request_forms.RequestFormController;
 import io.javalin.http.InternalServerErrorResponse;
 
 public class Server {
@@ -42,6 +43,7 @@ public class Server {
 
     // Initialize dependencies
     FsclientController fsclientController = new FsclientController(database);
+    RequestFormController requestFormController = new RequestFormController(database);
 
     Javalin server = Javalin.create(config ->
       config.plugins.register(new RouteOverviewPlugin("/api"))
@@ -73,6 +75,8 @@ public class Server {
     // Add new fsclient with the fsclient info being in the JSON body
     // of the HTTP request
     server.post("/api/fsclients", fsclientController::addNewFsclient);
+
+    // TODO: Add endpoints for request forms.
 
     // This catches any uncaught exceptions thrown in the server
     // code and turns them into a 500 response ("Internal Server
