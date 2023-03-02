@@ -30,6 +30,7 @@ import { HomeComponent } from './home/home.component';
 import { FsclientCardComponent } from './fsclient/fsclient-card.component';
 import { FsclientListComponent } from './fsclient/fsclient-list.component';
 import { FsclientProfileComponent } from './fsclient/fsclient-profile.component';
+import { RequestFormComponent } from './request-form/request-form.component';
 
 const MATERIAL_MODULES: any[] = [
   MatButtonModule,
@@ -58,6 +59,7 @@ const MATERIAL_MODULES: any[] = [
     FsclientCardComponent,
     FsclientProfileComponent,
     AddFsclientComponent,
+    RequestFormComponent,
   ],
   imports: [
     BrowserModule,
