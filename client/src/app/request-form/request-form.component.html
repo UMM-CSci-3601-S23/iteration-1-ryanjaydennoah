@@ -7,12 +7,29 @@
       <mat-card-content>
 
         <div class="flex-row gap-8 flex-wrap">
+
           <mat-form-field class="checkbox">
             <mat-label>Food</mat-label>
-            <input type="checkbox">
+            <input type="checkbox" id="banana" name="banana" value="1">
+            <label for="banana"> I want a banana</label><br>
+            <input type="submit" value="Submit">
           </mat-form-field>
         </div>
       </mat-card-content>
 
     </mat-card>
   </div>
+
+    <!-- Maybe this should be a pop-up instead of just a text message? Not sure. -->
+    <ng-template #fsclientsError>
+      <div class="flex-1" class="fsclient-error">
+        <mat-error>
+          There was a problem loading the fsclients. Possibly the server is down or perhaps there are network
+          issues.
+        </mat-error>
+        <mat-error>
+          Please wait a bit and try again or start the server.
+        </mat-error>
+      </div>
+    </ng-template>
+</div>
