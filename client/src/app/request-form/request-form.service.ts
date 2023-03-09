@@ -9,7 +9,8 @@ import { map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class RequestFormService {
-  readonly requestformUrl: string = `${environment.apiUrl}requestform`;
+
+  readonly requestFormUrl: string = `${environment.apiUrl}requestform`;
 
   private readonly foodKey = 'value';
 
@@ -24,8 +25,13 @@ getRequestForm(filters?: { value?: number }): Observable<RequestForm[]> {
       httpParams = httpParams.set(this.foodKey, filters.value);
     }
   }
-  return this.httpClient.get<RequestForm[]>(this.requestformUrl, {
+  return this.httpClient.get<RequestForm[]>(this.requestFormUrl, {
     params: httpParams,
   });
+}
+
+addRequestForm(newRequestForm: RequestForm): Observable<string> {
+  // Send post request to add a new todo with the todo data as the body.
+  return this.httpClient.post<{id: string}>(this.requestFormUrl, newRequestForm).pipe(map(res => res.id));
 }
 }

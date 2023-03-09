@@ -1,85 +1,252 @@
+<section class="example-section" [formGroup]="foods">
+  <h4>Foods Selection:</h4>
+  {{foods.value | json}}
+</section>
+
+
 <div class="flex-row">
   <div class="flex-1">
+    <form [formGroup]="addRequestForm" (ngSubmit)="submitForm();">
+
     <mat-card class="search-card">
       <mat-card-header>
         <mat-card-title class="request-forms-title">Make a new food request</mat-card-title>
       </mat-card-header>
 
+      <div>
+      <mat-form-field>
+        <mat-label>Name</mat-label>
+        <input matInput placeholder="Your Name" formControlName="name" required>
+        <mat-error *ngFor="let validation of addTodoValidationMessages.name">
+          <mat-error class="error-message" data-test="nameError"
+                    *ngIf="addRequestForm.get('name').hasError(validation.type) && (addRequestForm.get('name').dirty || addRequestForm.get('name').touched)">
+            {{validation.message}}
+          </mat-error>
+        </mat-error>
+      </mat-form-field>
+    </div>
+
       <div class="flex-row gap-8 flex-wrap form-fruits">Fruits
-        <section class="form-fruits-fresh">
+        <section class="form-fruits-fresh" [formGroup]="foods">
           <mat-card-subtitle class="fruits-fresh-subtitle">Fresh</mat-card-subtitle>
-          <mat-checkbox>Misc Fresh Fruit as available</mat-checkbox><br />
-          <mat-checkbox>Apple juice</mat-checkbox><br />
-          <mat-checkbox>Frozen peaches</mat-checkbox><br />
+          <mat-checkbox formControlName="miscFreshFruit">Miscellaneous Fresh Fruit as available</mat-checkbox><br />
+          <mat-checkbox formControlName="appleJuice">Apple juice</mat-checkbox><br />
+          <mat-checkbox formControlName="frozenPeaches">Frozen peaches</mat-checkbox><br />
         </section>
-        <section class="form-fruits-canned">
+        <section class="form-fruits-canned" [formGroup]="foods">
           <mat-card-subtitle class="fruits-canned-subtitle">Canned</mat-card-subtitle>
-          <mat-checkbox>Mixed fruit</mat-checkbox><br />
-          <mat-checkbox>Peaches</mat-checkbox><br />
-          <mat-checkbox>Apple sauce</mat-checkbox><br />
+          <mat-checkbox formControlName="mixedFruit">Mixed fruit</mat-checkbox><br />
+          <mat-checkbox formControlName="peaches">Peaches</mat-checkbox><br />
+          <mat-checkbox formControlName="appleSauce">Apple sauce</mat-checkbox><br />
         </section>
-        <section class="form-fruits-dried">
+        <section class="form-fruits-dried" [formGroup]="foods">
           <mat-card-subtitle class="dried-subtitle">Dried</mat-card-subtitle>
-          <mat-checkbox>Dates</mat-checkbox><br />
+          <mat-checkbox formControlName="dates">Dates</mat-checkbox><br />
         </section>
       </div>
 
       <div class="flex-row gap-8 flex-wrap form-vegetables">Vegetables
-        <section class="form-vegetables-fresh">
+        <section class="form-vegetables-fresh" [formGroup]="foods">
           <mat-card-subtitle class="vegetables-fresh-subtitle">Fresh</mat-card-subtitle>
-          <mat-checkbox>Carrots</mat-checkbox><br />
-          <mat-checkbox>Misc Fresh Vegetables as available</mat-checkbox><br />
+          <mat-checkbox formControlName="carrots">Carrots</mat-checkbox><br />
+          <mat-checkbox formControlName="miscFreshVegetables">Miscellaneous Fresh Vegetables as available</mat-checkbox><br />
         </section>
-        <section class="form-vegetables-canned">
+        <section class="form-vegetables-canned" [formGroup]="foods">
           <mat-card-subtitle class="vegetables-canned-subtitle">Canned</mat-card-subtitle>
-          <mat-checkbox>Corn</mat-checkbox><br />
-          <mat-checkbox>Green beans</mat-checkbox><br />
-          <mat-checkbox>Peas</mat-checkbox><br />
-          <mat-checkbox>Sweet potatoes</mat-checkbox><br />
-          <mat-checkbox>Spinach</mat-checkbox><br />
-          <mat-checkbox>Carrots</mat-checkbox><br />
+          <mat-checkbox formControlName="corn">Corn</mat-checkbox><br />
+          <mat-checkbox formControlName="greenBeans">Green beans</mat-checkbox><br />
+          <mat-checkbox formControlName="peas">Peas</mat-checkbox><br />
+          <mat-checkbox formControlName="sweetPotatoes">Sweet potatoes</mat-checkbox><br />
+          <mat-checkbox formControlName="spinach">Spinach</mat-checkbox><br />
+          <mat-checkbox formControlName="cannedCarrots">Carrots</mat-checkbox><br />
         </section>
-        <section class="form-vegetables-other">
+        <section class="form-vegetables-other" [formGroup]="foods">
           <mat-card-subtitle class="vegetables-other-subtitle">Other</mat-card-subtitle>
-          <mat-checkbox>Diced tomatoes</mat-checkbox><br />
-          <mat-checkbox>Spaghetti sauce</mat-checkbox><br />
+          <mat-checkbox formControlName="dicedTomatoes">Diced tomatoes</mat-checkbox><br />
+          <mat-checkbox formControlName="spaghettiSauce">Spaghetti sauce</mat-checkbox><br />
         </section>
       </div>
 
       <div class="flex-row gap-8 flex-wrap form-proteins">Proteins
-        <section class="form-proteins-frozen-meat">
+        <section class="form-proteins-frozen-meat" [formGroup]="foods">
           <mat-card-subtitle class="frozen-meat-subtitle">Frozen meat</mat-card-subtitle>
-          <mat-checkbox>Ground beef</mat-checkbox><br />
-          <mat-checkbox>Ground beef/Pork blend</mat-checkbox><br />
-          <mat-checkbox>Plant based burgers</mat-checkbox><br />
-          <mat-checkbox>Pizza Ranch pizza</mat-checkbox><br />
-          <mat-checkbox>Veggie ravioli (for one)</mat-checkbox><br />
-
+          <mat-checkbox formControlName="groundBeef">Ground beef</mat-checkbox><br />
+          <mat-checkbox formControlName="groundBeefOrPorkBlend">Ground beef/Pork blend</mat-checkbox><br />
+          <mat-checkbox formControlName="plantBasedBurgers">Plant based burgers</mat-checkbox><br />
+          <mat-checkbox formControlName="pizzaRanchPizza">Pizza Ranch pizza</mat-checkbox><br />
+          <mat-checkbox formControlName="veggieRavioli">Veggie ravioli (for one)</mat-checkbox><br />
+        </section>
+        <section>
           <mat-card-subtitle class="pick-1-or-2"><u>Pick one or two</u></mat-card-subtitle>
-          <mat-checkbox>Chicken drumsticks</mat-checkbox><br />
-          <mat-checkbox>Whole chicken </mat-checkbox><br />
-          <mat-checkbox>Chicken breast</mat-checkbox><br />
-          <mat-checkbox>Chicken leg qtrs</mat-checkbox><br />
-          <mat-checkbox>Fish sticks</mat-checkbox><br />
-          <mat-checkbox>Ham</mat-checkbox><br />
-          <mat-checkbox>Assorted meats as available</mat-checkbox><br />
+          <mat-checkbox formControlName="chickenDrumsticks">Chicken drumsticks</mat-checkbox><br />
+          <mat-checkbox formControlName="wholeChicken">Whole chicken </mat-checkbox><br />
+          <mat-checkbox formControlName="chickenBreast">Chicken breast</mat-checkbox><br />
+          <mat-checkbox formControlName="chickenLegQtrs">Chicken leg qtrs</mat-checkbox><br />
+          <mat-checkbox formControlName="fishSticks">Fish sticks</mat-checkbox><br />
+          <mat-checkbox formControlName="ham">Ham</mat-checkbox><br />
+          <mat-checkbox formControlName="assortedMeats">Assorted meats as available</mat-checkbox><br />
         </section>
-
-        <section class="form-proteins-canned">
+        <section class="form-proteins-canned" [formGroup]="foods">
           <mat-card-subtitle class="proteins-canned-subtitle">Canned meat</mat-card-subtitle>
-          <mat-checkbox>Chicken</mat-checkbox><br />
-          <mat-checkbox>Tuna</mat-checkbox><br />
-          <mat-checkbox>Salmon</mat-checkbox><br />
+          <mat-checkbox formControlName="chicken">Chicken</mat-checkbox><br />
+          <mat-checkbox formControlName="tuna">Tuna</mat-checkbox><br />
+          <mat-checkbox formControlName="salmon">Salmon</mat-checkbox><br />
         </section>
-        <section class="form-proteins-canned-ready">
+        <section class="form-proteins-canned-ready" [formGroup]="foods">
           <mat-card-subtitle class="proteins-canned-ready-subtitle">Ready to eat canned meals</mat-card-subtitle>
-          <mat-checkbox>Pasta with meat sauce</mat-checkbox><br />
-          <mat-checkbox>Pasta in butter sauce</mat-checkbox><br />
-          <mat-checkbox>Canned chili</mat-checkbox><br />
-          <mat-checkbox>Veg curry</mat-checkbox><br />
-          <mat-checkbox>Hot dog sauce</mat-checkbox><br />
+          <mat-checkbox formControlName="pastaWithMeatSauce">Pasta with meat sauce</mat-checkbox><br />
+          <mat-checkbox formControlName="pastaInButterSauce">Pasta in butter sauce</mat-checkbox><br />
+          <mat-checkbox formControlName="cannedChili">Canned chili</mat-checkbox><br />
+          <mat-checkbox formControlName="vegCurry">Veg curry</mat-checkbox><br />
+          <mat-checkbox formControlName="hotDogSauce">Hot dog sauce</mat-checkbox><br />
+        </section>
+        <section class="form-proteins-canned-ready" [formGroup]="foods">
+          <mat-card-subtitle class="proteins-canned-ready-subtitle">Canned Beans</mat-card-subtitle>
+          <mat-checkbox formControlName="blackEyedPeas">Black Eyed Peas</mat-checkbox><br />
+          <mat-checkbox formControlName="yellowEyedBeans">Yellow Eyed Beans</mat-checkbox><br />
+          <mat-checkbox formControlName="pintoBeans">Pinto Beans</mat-checkbox><br />
+          <mat-checkbox formControlName="porkAndBeans">Pork and Beans</mat-checkbox><br />
+          <mat-checkbox formControlName="refriedBeans">Refried Beans</mat-checkbox><br />
+          <mat-checkbox formControlName="whiteBeans">White Beans</mat-checkbox><br />
+        </section>
+        <section class="form-proteins-canned-ready" [formGroup]="foods">
+          <mat-card-subtitle class="proteins-canned-ready-subtitle">Dried Beans</mat-card-subtitle>
+          <mat-checkbox formControlName="blackBeans">Black Beans</mat-checkbox><br />
+          <mat-checkbox formControlName="driedPintoBeans">Pinto Beans</mat-checkbox><br />
+          <mat-checkbox formControlName="yellowSplitPeas">Yellow Split Peas</mat-checkbox><br />
+          <mat-checkbox formControlName="kidneyBeans">Kidney Beans</mat-checkbox><br />
+          <mat-checkbox formControlName="miscDriedBeans">Miscellaneous Dried Beans</mat-checkbox><br />
+        </section>
+        <section class="form-proteins-canned-ready" [formGroup]="foods">
+          <mat-card-subtitle class="proteins-canned-ready-subtitle">Nuts</mat-card-subtitle>
+          <mat-checkbox formControlName="peanutButter">Peanut Butter</mat-checkbox><br />
+          <mat-checkbox formControlName="almonds">Almonds</mat-checkbox><br />
+          <mat-checkbox formControlName="walnuts">Walnuts</mat-checkbox><br />
+        </section>
+        <section class="form-proteins-canned-ready" [formGroup]="foods">
+          <mat-card-subtitle class="proteins-canned-ready-subtitle">Snacks</mat-card-subtitle>
+          <mat-checkbox formControlName="crackers">Crackers</mat-checkbox><br />
+          <mat-checkbox formControlName="cookies">Cookies</mat-checkbox><br />
+          <mat-checkbox formControlName="miscSnacks">Miscellaneous Snacks</mat-checkbox><br />
         </section>
       </div>
+
+      <div class="flex-row gap-8 flex-wrap form-proteins">Grains
+        <section class="form-proteins-canned-ready" [formGroup]="foods">
+          <mat-card-subtitle class="proteins-canned-ready-subtitle"></mat-card-subtitle>
+          <mat-checkbox formControlName="rice">Rice</mat-checkbox><br />
+          <mat-checkbox formControlName="stuffingMix">Stuffing Mix</mat-checkbox><br />
+          <mat-checkbox formControlName="pancakeMix">Pancake Mix</mat-checkbox><br />
+          <mat-checkbox formControlName="quickOats">Quick Oats</mat-checkbox><br />
+          <mat-checkbox formControlName="readyToEatCereal">Ready-to-eat Cereal</mat-checkbox><br />
+        </section>
+        <section class="form-proteins-canned-ready" [formGroup]="foods">
+          <mat-card-subtitle class="proteins-canned-ready-subtitle">Dried Pasta</mat-card-subtitle>
+          <mat-checkbox formControlName="elbowNoodles">Elbow Noodles</mat-checkbox><br />
+          <mat-checkbox formControlName="macaroniAndCheese">Macaroni and Cheese</mat-checkbox><br />
+          <mat-checkbox formControlName="pennePasta">Penne Pasta</mat-checkbox><br />
+          <mat-checkbox formControlName="instantPastaOrRice">Instant Pasta or Rice</mat-checkbox><br />
+        </section>
+        <section class="form-proteins-canned-ready" [formGroup]="foods">
+          <mat-card-subtitle class="proteins-canned-ready-subtitle">Bakery</mat-card-subtitle>
+          <mat-checkbox formControlName="bread">Bread</mat-checkbox><br />
+          <mat-checkbox formControlName="hamburgerBuns">Hamburger Buns</mat-checkbox><br />
+          <mat-checkbox formControlName="hotDogBuns">Hot Dog Buns</mat-checkbox><br />
+          <mat-checkbox formControlName="bakedGoods">Baked Goods</mat-checkbox><br />
+        </section>
+      </div>
+
+      <div class="flex-row gap-8 flex-wrap form-proteins">Milk and Cheese
+        <section class="form-proteins-canned-ready" [formGroup]="foods">
+          <mat-card-subtitle class="proteins-canned-ready-subtitle"></mat-card-subtitle>
+          <mat-checkbox formControlName="freshMilk">Fresh Milk</mat-checkbox><br />
+          <mat-checkbox formControlName="miscellaneousDairyProducts">Miscellaneous Dairy Products</mat-checkbox><br />
+          <mat-checkbox formControlName="cheese">Cheese</mat-checkbox><br />
+          <mat-checkbox formControlName="yogurt">Yogurt</mat-checkbox><br />
+          <mat-checkbox formControlName="butter">Butter</mat-checkbox><br />
+          <mat-checkbox formControlName="shelfStableMilk">Shelf Stable Milk</mat-checkbox><br />
+        </section>
+      </div>
+
+      <div class="flex-row gap-8 flex-wrap form-proteins">Pantry, Cooking, and Baking
+        <section class="form-proteins-canned-ready" [formGroup]="foods">
+          <mat-card-subtitle class="proteins-canned-ready-subtitle">Baking</mat-card-subtitle>
+          <mat-checkbox formControlName="bakingMix">Baking Mix</mat-checkbox><br />
+          <mat-checkbox formControlName="cakeMix">Cake Mix</mat-checkbox><br />
+          <mat-checkbox formControlName="flour">Flour</mat-checkbox><br />
+          <mat-checkbox formControlName="muffinMix">Muffin Mix</mat-checkbox><br />
+          <mat-checkbox formControlName="cookieMix">Cookie Mix</mat-checkbox><br />
+          <mat-checkbox formControlName="miscellaneousBakingItems">Miscellaneous Baking Items</mat-checkbox><br />
+          <mat-checkbox formControlName="vegetableOil">Vegetable Oil</mat-checkbox><br />
+        </section>
+        <section class="form-proteins-canned-ready" [formGroup]="foods">
+          <mat-card-subtitle class="proteins-canned-ready-subtitle">Soups</mat-card-subtitle>
+          <mat-checkbox formControlName="chickenNoodleSoup">Chicken Noodle Soup</mat-checkbox><br />
+          <mat-checkbox formControlName="tomatoSoup">Tomato Soup</mat-checkbox><br />
+          <mat-checkbox formControlName="vegetableSoup">Vegetable Soup</mat-checkbox><br />
+          <mat-checkbox formControlName="creamyCannedSoup">Creamy Canned Soup</mat-checkbox><br />
+          <mat-checkbox formControlName="miscellaneousSoup">Miscellaneous Soups as available</mat-checkbox><br />
+        </section>
+        <section class="form-proteins-canned-ready" [formGroup]="foods">
+          <mat-card-subtitle class="proteins-canned-ready-subtitle">Condiments</mat-card-subtitle>
+          <mat-checkbox formControlName="seasonings">Seasonings</mat-checkbox><br />
+          <mat-checkbox formControlName="hotSauce">Hot Sauce</mat-checkbox><br />
+          <mat-checkbox formControlName="saladDressing">Salad Dressing</mat-checkbox><br />
+          <mat-checkbox formControlName="ranchDressing">Ranch Dressing</mat-checkbox><br />
+          <mat-checkbox formControlName="mustard">Mustard</mat-checkbox><br />
+          <mat-checkbox formControlName="syrup">Syrup</mat-checkbox><br />
+          <mat-checkbox formControlName="miscellaneousPicklesOlivesETC">Miscellaneous Pickles, Olives, etc.</mat-checkbox><br />
+        </section>
+      </div>
+
+      <div class="flex-row gap-8 flex-wrap form-proteins">Baby
+        <section class="form-proteins-canned-ready" [formGroup]="foods">
+          <mat-card-subtitle class="proteins-canned-ready-subtitle"></mat-card-subtitle>
+          <mat-checkbox formControlName="fruitOrVegetablePuree">Fruit or Vegetable Puree</mat-checkbox><br />
+          <mat-checkbox formControlName="babyCereal">Baby Cereal</mat-checkbox><br />
+          <mat-checkbox formControlName="formula">Formula</mat-checkbox><br />
+          <mat-checkbox formControlName="newbornGiftBag">Newborn Gift Bag</mat-checkbox><br />
+          <mat-checkbox formControlName="diapers" [disabled]="true">Diapers</mat-checkbox><br />
+        </section>
+      </div>
+
+      <div class="flex-row gap-8 flex-wrap form-proteins">Personal
+        <section class="form-proteins-canned-ready" [formGroup]="foods">
+          <mat-card-subtitle class="proteins-canned-ready-subtitle"></mat-card-subtitle>
+          <mat-checkbox formControlName="shampoo">Shampoo</mat-checkbox><br />
+          <mat-checkbox formControlName="bodyOrHandSoap">Body or Hand Soap</mat-checkbox><br />
+          <mat-checkbox formControlName="toothpaste">Toothpaste</mat-checkbox><br />
+          <mat-checkbox formControlName="toothbrushes">Toothbrushes</mat-checkbox><br />
+          <mat-checkbox formControlName="birthdayPartyKit">Birthday Party Kit</mat-checkbox><br />
+          <mat-checkbox formControlName="handSanitizer">Hand Sanitizer</mat-checkbox><br />
+          <mat-checkbox formControlName="feminineHygiene">Feminine Hygiene</mat-checkbox><br />
+        </section>
+      </div>
+
+      <div class="flex-row gap-8 flex-wrap form-proteins">Household
+        <section class="form-proteins-canned-ready" [formGroup]="foods">
+          <mat-card-subtitle class="proteins-canned-ready-subtitle"></mat-card-subtitle>
+          <mat-checkbox formControlName="dishSoap">Dish Soap</mat-checkbox><br />
+          <mat-checkbox formControlName="laundryDetergent">Laundry Detergent</mat-checkbox><br />
+          <mat-checkbox formControlName="disinfectingWipes">Disinfecting Wipes</mat-checkbox><br />
+        </section>
+      </div>
+
+
+      <mat-card-actions align="start">
+        <button
+          mat-button
+          type="button"
+          color="primary"
+          [disabled]="!addRequestForm.valid"
+          type="submit"
+          data-test="confirmAddTodoButton"
+        >
+          Submit Request Form
+        </button>
+      </mat-card-actions>
+
+
     <!-- Maybe this should be a pop-up instead of just a text message? Not sure. -->
     <ng-template #requestFormError>
       <div class="flex-1" class="fsclient-error">
