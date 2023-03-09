@@ -82,18 +82,18 @@ export class RequestFormComponent implements OnInit {
     this.requestFormService.addRequestForm(requestForm).subscribe({
       next: (newID) => {
         this.snackBar.open(
-          'Failed to add the requestForm',
-          'OK',
-          { duration: 5000 }
-
+          `Added requestForm ${this.addRequestForm.value.name}`,
+          null,
+          { duration: 2000 }
         );
         this.router.navigate(['/requestForm/', newID]);
       },
       error: err => {
         this.snackBar.open(
-          `Added requestForm ${this.addRequestForm.value.name}`,
-          null,
-          { duration: 2000 }
+          'Failed to add the requestForm',
+          'OK',
+          { duration: 5000 }
+
         );
       },
       // complete: () => console.log('Add todo completes!')
