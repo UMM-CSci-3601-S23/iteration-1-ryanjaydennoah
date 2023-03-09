@@ -32,6 +32,10 @@ import { FsclientCardComponent } from './fsclient/fsclient-card.component';
 import { FsclientListComponent } from './fsclient/fsclient-list.component';
 import { FsclientProfileComponent } from './fsclient/fsclient-profile.component';
 import { RequestFormComponent } from './request-form/request-form.component';
+import { DonatorListComponent } from './donator/donator-list.component';
+import { DonatorCardComponent } from './donator/donator-card.component';
+import { VolunteerCardComponent } from './volunteer/volunteer-card.component';
+
 
 const MATERIAL_MODULES: any[] = [
   MatButtonModule,
@@ -62,6 +66,10 @@ const MATERIAL_MODULES: any[] = [
     FsclientProfileComponent,
     AddFsclientComponent,
     RequestFormComponent,
+    DonatorListComponent,
+    DonatorCardComponent,
+    VolunteerCardComponent
+
   ],
   imports: [
     BrowserModule,
