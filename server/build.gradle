@@ -102,6 +102,7 @@ jacocoTestCoverageVerification {
   dependsOn test
 
   // These are the rules applied to the test coverage
+
   violationRules {
     rule {/*
       // We are looking at the entire bundle overall, i.e.,

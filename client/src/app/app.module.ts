@@ -22,6 +22,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 import { AddFsclientComponent } from './fsclient/add-fsclient.component';
 import { AppComponent } from './app.component';
@@ -30,9 +31,11 @@ import { HomeComponent } from './home/home.component';
 import { FsclientCardComponent } from './fsclient/fsclient-card.component';
 import { FsclientListComponent } from './fsclient/fsclient-list.component';
 import { FsclientProfileComponent } from './fsclient/fsclient-profile.component';
+import { RequestFormComponent } from './request-form/request-form.component';
 import { DonatorListComponent } from './donator/donator-list.component';
 import { DonatorCardComponent } from './donator/donator-card.component';
 import { VolunteerCardComponent } from './volunteer/volunteer-card.component';
+
 
 const MATERIAL_MODULES: any[] = [
   MatButtonModule,
@@ -51,6 +54,7 @@ const MATERIAL_MODULES: any[] = [
   MatSnackBarModule,
   MatToolbarModule,
   MatTooltipModule,
+  MatCheckboxModule
 ];
 
 @NgModule({
@@ -61,9 +65,11 @@ const MATERIAL_MODULES: any[] = [
     FsclientCardComponent,
     FsclientProfileComponent,
     AddFsclientComponent,
+    RequestFormComponent,
     DonatorListComponent,
     DonatorCardComponent,
     VolunteerCardComponent
+
   ],
   imports: [
     BrowserModule,
