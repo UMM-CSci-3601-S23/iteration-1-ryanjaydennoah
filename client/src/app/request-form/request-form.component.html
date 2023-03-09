@@ -2,24 +2,84 @@
   <div class="flex-1">
     <mat-card class="search-card">
       <mat-card-header>
-        <mat-card-title class="request-forms-title">Request Forms</mat-card-title>
+        <mat-card-title class="request-forms-title">Make a new food request</mat-card-title>
       </mat-card-header>
-      <mat-card-content>
 
-        <div class="flex-row gap-8 flex-wrap">
+      <div class="flex-row gap-8 flex-wrap form-fruits">Fruits
+        <section class="form-fruits-fresh">
+          <mat-card-subtitle class="fruits-fresh-subtitle">Fresh</mat-card-subtitle>
+          <mat-checkbox>Misc Fresh Fruit as available</mat-checkbox><br />
+          <mat-checkbox>Apple juice</mat-checkbox><br />
+          <mat-checkbox>Frozen peaches</mat-checkbox><br />
+        </section>
+        <section class="form-fruits-canned">
+          <mat-card-subtitle class="fruits-canned-subtitle">Canned</mat-card-subtitle>
+          <mat-checkbox>Mixed fruit</mat-checkbox><br />
+          <mat-checkbox>Peaches</mat-checkbox><br />
+          <mat-checkbox>Apple sauce</mat-checkbox><br />
+        </section>
+        <section class="form-fruits-dried">
+          <mat-card-subtitle class="dried-subtitle">Dried</mat-card-subtitle>
+          <mat-checkbox>Dates</mat-checkbox><br />
+        </section>
+      </div>
 
-          <mat-form-field class="checkbox">
-            <mat-label>Food</mat-label>
-            <input type="checkbox" id="banana" name="banana" value="1">
-            <label for="banana"> I want a banana</label><br>
-            <input type="submit" value="Submit">
-          </mat-form-field>
-        </form> -->
-      </mat-card-content>
+      <div class="flex-row gap-8 flex-wrap form-vegetables">Vegetables
+        <section class="form-vegetables-fresh">
+          <mat-card-subtitle class="vegetables-fresh-subtitle">Fresh</mat-card-subtitle>
+          <mat-checkbox>Carrots</mat-checkbox><br />
+          <mat-checkbox>Misc Fresh Vegetables as available</mat-checkbox><br />
+        </section>
+        <section class="form-vegetables-canned">
+          <mat-card-subtitle class="vegetables-canned-subtitle">Canned</mat-card-subtitle>
+          <mat-checkbox>Corn</mat-checkbox><br />
+          <mat-checkbox>Green beans</mat-checkbox><br />
+          <mat-checkbox>Peas</mat-checkbox><br />
+          <mat-checkbox>Sweet potatoes</mat-checkbox><br />
+          <mat-checkbox>Spinach</mat-checkbox><br />
+          <mat-checkbox>Carrots</mat-checkbox><br />
+        </section>
+        <section class="form-vegetables-other">
+          <mat-card-subtitle class="vegetables-other-subtitle">Other</mat-card-subtitle>
+          <mat-checkbox>Diced tomatoes</mat-checkbox><br />
+          <mat-checkbox>Spaghetti sauce</mat-checkbox><br />
+        </section>
+      </div>
 
-    </mat-card>
-  </div>
+      <div class="flex-row gap-8 flex-wrap form-proteins">Proteins
+        <section class="form-proteins-frozen-meat">
+          <mat-card-subtitle class="frozen-meat-subtitle">Frozen meat</mat-card-subtitle>
+          <mat-checkbox>Ground beef</mat-checkbox><br />
+          <mat-checkbox>Ground beef/Pork blend</mat-checkbox><br />
+          <mat-checkbox>Plant based burgers</mat-checkbox><br />
+          <mat-checkbox>Pizza Ranch pizza</mat-checkbox><br />
+          <mat-checkbox>Veggie ravioli (for one)</mat-checkbox><br />
 
+          <mat-card-subtitle class="pick-1-or-2"><u>Pick one or two</u></mat-card-subtitle>
+          <mat-checkbox>Chicken drumsticks</mat-checkbox><br />
+          <mat-checkbox>Whole chicken </mat-checkbox><br />
+          <mat-checkbox>Chicken breast</mat-checkbox><br />
+          <mat-checkbox>Chicken leg qtrs</mat-checkbox><br />
+          <mat-checkbox>Fish sticks</mat-checkbox><br />
+          <mat-checkbox>Ham</mat-checkbox><br />
+          <mat-checkbox>Assorted meats as available</mat-checkbox><br />
+        </section>
+
+        <section class="form-proteins-canned">
+          <mat-card-subtitle class="proteins-canned-subtitle">Canned meat</mat-card-subtitle>
+          <mat-checkbox>Chicken</mat-checkbox><br />
+          <mat-checkbox>Tuna</mat-checkbox><br />
+          <mat-checkbox>Salmon</mat-checkbox><br />
+        </section>
+        <section class="form-proteins-canned-ready">
+          <mat-card-subtitle class="proteins-canned-ready-subtitle">Ready to eat canned meals</mat-card-subtitle>
+          <mat-checkbox>Pasta with meat sauce</mat-checkbox><br />
+          <mat-checkbox>Pasta in butter sauce</mat-checkbox><br />
+          <mat-checkbox>Canned chili</mat-checkbox><br />
+          <mat-checkbox>Veg curry</mat-checkbox><br />
+          <mat-checkbox>Hot dog sauce</mat-checkbox><br />
+        </section>
+      </div>
     <!-- Maybe this should be a pop-up instead of just a text message? Not sure. -->
     <ng-template #requestFormError>
       <div class="flex-1" class="fsclient-error">
@@ -32,4 +92,3 @@
         </mat-error>
       </div>
     </ng-template>
-</div>
